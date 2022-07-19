@@ -1,4 +1,4 @@
-package com.drmarten.demo.mappers;
+package com.ezen.drmarten.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,16 +20,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.drmarten.demo.vo.DRBoard;
+import com.ezen.drmarten.mappers.BoardMapper;
+import com.ezen.drmarten.model.Board;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/dr")
-public class DRController {
+public class BoardController {
 
 	@Autowired
-	private DRMapper dao;
+	private BoardMapper dao;
 
 	@GetMapping("")
 	public String index() {
@@ -44,14 +45,14 @@ public class DRController {
 
 	@GetMapping("/notice/list")
 	public String notice_list(Model model) {
-		List<DRBoard> list = dao.getNoticeList();
+		List<Board> list = dao.getNoticeList();
 		model.addAttribute("list", list);
 		return "dr/notice_list";
 	}
 
 	@GetMapping("/notice/detail/{num}")
 	public String notice_detail(@PathVariable("num") int num, Model model) {
-		DRBoard board = dao.getNotice(num);
+		Board board = dao.getNotice(num);
 		model.addAttribute("board", board);
 		return "dr/notice_detail";
 	}
@@ -60,7 +61,7 @@ public class DRController {
 	@ResponseBody
 	public Map<String, Object> notice_save(@RequestParam("category") String category,
 			@RequestParam("title") String title, @RequestParam("contents") String contents) {
-		DRBoard board = new DRBoard();
+		Board board = new Board();
 		board.setCategory(category);
 		board.setTitle(title);
 		board.setContents(contents);
@@ -82,7 +83,7 @@ public class DRController {
 	
 	@GetMapping("/notice/edit/{num}")
 	public String notice_edit_form(@PathVariable("num")int num, Model model) {
-		DRBoard board = dao.getNotice(num);
+		Board board = dao.getNotice(num);
 		model.addAttribute("board", board);
 		return "dr/notice_edit";
 	}
@@ -95,7 +96,7 @@ public class DRController {
 			@RequestParam("title")String title,
 			@RequestParam("contents")String contents
 			){
-		DRBoard board = new DRBoard();
+		Board board = new Board();
 		board.setBoard_num(num);
 		board.setCategory(category);
 		board.setTitle(title);
@@ -118,8 +119,8 @@ public class DRController {
 		int pageNum = 1;
 		int pageSize = 5;
 		PageHelper.startPage(pageNum, pageSize);
-		PageInfo<DRBoard> pageInfo = new PageInfo<>(dao.getQnaList());
-		List<DRBoard> list = pageInfo.getList();
+		PageInfo<Board> pageInfo = new PageInfo<>(dao.getQnaList());
+		List<Board> list = pageInfo.getList();
 		model.addAttribute("pageInfo", pageInfo);
 		return "dr/qna_list";
 	}
@@ -129,8 +130,8 @@ public class DRController {
 		int pageNum = page;
 		int pageSize = 5;
 		PageHelper.startPage(pageNum, pageSize);
-		PageInfo<DRBoard> pageInfo = new PageInfo<>(dao.getQnaList());
-		List<DRBoard> list = pageInfo.getList();
+		PageInfo<Board> pageInfo = new PageInfo<>(dao.getQnaList());
+		List<Board> list = pageInfo.getList();
 		model.addAttribute("pageInfo", pageInfo);
 		return "dr/qna_list";
 	}
@@ -141,12 +142,12 @@ public class DRController {
 		int pageSize = 5;
 		PageHelper.startPage(pageNum, pageSize);
 		if (category.equals("전체")) {
-			PageInfo<DRBoard> pageInfo = new PageInfo<>(dao.getQnaList());
-			List<DRBoard> list = pageInfo.getList();
+			PageInfo<Board> pageInfo = new PageInfo<>(dao.getQnaList());
+			List<Board> list = pageInfo.getList();
 			model.addAttribute("pageInfo", pageInfo);
 		} else {
-			PageInfo<DRBoard> pageInfo = new PageInfo<>(dao.getQnaListByCategory(category));
-			List<DRBoard> list = pageInfo.getList();
+			PageInfo<Board> pageInfo = new PageInfo<>(dao.getQnaListByCategory(category));
+			List<Board> list = pageInfo.getList();
 			model.addAttribute("pageInfo", pageInfo);
 		}
 		return "dr/qna_list";
@@ -156,7 +157,7 @@ public class DRController {
 	@ResponseBody
 	public Map<String, Object> qa_save(@RequestParam("category") String category, @RequestParam("title") String title,
 			@RequestParam("contents") String contents) {
-		DRBoard board = new DRBoard();
+		Board board = new Board();
 		board.setCategory(category);
 		board.setTitle(title);
 		board.setContents(contents);
@@ -171,14 +172,14 @@ public class DRController {
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "psize", defaultValue = "8") int pageSize, Model model) {
 		PageHelper.startPage(page, pageSize);
-		PageInfo<DRBoard> pageInfo = new PageInfo<>(dao.searchQnaList(search));
+		PageInfo<Board> pageInfo = new PageInfo<>(dao.searchQnaList(search));
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("search", search);
 		return "dr/qna_list";
 	}
 	@GetMapping("/qa/detail/{num}")
 	public String qa_detail(@PathVariable("num") int num, Model model) {
-		DRBoard board = dao.getQa(num);
+		Board board = dao.getQa(num);
 		model.addAttribute("board", board);
 		return "dr/qna_detail";
 	}
@@ -194,7 +195,7 @@ public class DRController {
 
 	@GetMapping("/qa/edit/{num}")
 	public String qa_edit_form(@PathVariable("num")int num, Model model) {
-		DRBoard board = dao.getQa(num);
+		Board board = dao.getQa(num);
 		model.addAttribute("board", board);
 		return "dr/qna_edit";
 	}
@@ -207,7 +208,7 @@ public class DRController {
 			@RequestParam("title")String title,
 			@RequestParam("contents")String contents
 			){
-		DRBoard board = new DRBoard();
+		Board board = new Board();
 		board.setBoard_num(num);
 		board.setCategory(category);
 		board.setTitle(title);
@@ -226,7 +227,7 @@ public class DRController {
 
 	@GetMapping("/review/list")
 	public String review_list(Model model) {
-		List<DRBoard> list = dao.getReviewList();
+		List<Board> list = dao.getReviewList();
 		model.addAttribute("list", list);
 		return "dr/review_list";
 	}
@@ -240,7 +241,7 @@ public class DRController {
 		ServletContext context = request.getServletContext();
 		String savePath = context.getRealPath("../resources");
 		
-		DRBoard board = new DRBoard();
+		Board board = new Board();
 		board.setFpath(savePath);
 		
 		String pName = mfiles.getOriginalFilename();
@@ -278,7 +279,7 @@ public class DRController {
 
 	@GetMapping("/myqna/list")
 	public String myqna_list(Model model) {
-		List<DRBoard> list = dao.getMyQnaList();
+		List<Board> list = dao.getMyQnaList();
 		model.addAttribute("list", list);
 		return "dr/myqna_list";
 	}
@@ -289,7 +290,7 @@ public class DRController {
 			@RequestParam("contents") String contents, @RequestParam("category") String category,
 			@RequestParam("pcode") int pcode, @RequestParam("product_code") String str_product_code,
 			@RequestParam("order_num") String str_order_num) {
-		DRBoard board = new DRBoard();
+		Board board = new Board();
 		board.setTitle(title);
 		board.setContents(contents);
 		board.setCategory(category);
@@ -307,7 +308,7 @@ public class DRController {
 
 	@GetMapping("/myqna/detail/{num}")
 	public String myqna_detail(@PathVariable("num") int num, Model model) {
-		DRBoard board = dao.getMyQna(num);
+		Board board = dao.getMyQna(num);
 		model.addAttribute("board", board);
 		return "dr/myqna_detail";
 	}
@@ -323,7 +324,7 @@ public class DRController {
 	
 	@GetMapping("/myqna/edit/{num}")
 	public String myqna_edit_form(@PathVariable("num")int num, Model model) {
-		DRBoard board = dao.getMyQna(num);
+		Board board = dao.getMyQna(num);
 		model.addAttribute("board", board);
 		return "dr/myqna_edit";
 	}
@@ -335,7 +336,7 @@ public class DRController {
 			@RequestParam("title")String title,
 			@RequestParam("contents")String contents
 			){
-		DRBoard board = new DRBoard();
+		Board board = new Board();
 		board.setBoard_num(num);
 		board.setTitle(title);
 		board.setContents(contents);

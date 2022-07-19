@@ -2,53 +2,53 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.drmarten.demo.mappers.DRMapper">
-<insert id="saveNotice" parameterType="com.drmarten.demo.vo.DRBoard">
+<mapper namespace="com.ezen.drmarten.mappers.BoardMapper">
+<insert id="saveNotice" parameterType="com.ezen.drmarten.model.Board">
 INSERT INTO NOTICE (BOARD_NUM, TITLE, CONTENTS, WDATE, WRITER, CATEGORY)
 VALUES (
 	1, #{title}, #{contents}, SYSDATE, '관리자', #{category})
 </insert>
-<insert id="saveQA" parameterType="com.drmarten.demo.vo.DRBoard">
+<insert id="saveQA" parameterType="com.ezen.drmarten.model.Board">
 INSERT INTO QA (BOARD_NUM, TITLE, CONTENTS, WDATE, WRITER, CATEGORY)
 VALUES (
 	1, #{title}, #{contents}, SYSDATE, '관리자', #{category})
 </insert>
-<insert id="saveReview" parameterType="com.drmarten.demo.vo.DRBoard">
+<insert id="saveReview" parameterType="com.ezen.drmarten.model.Board">
 INSERT INTO REVIEW (BOARD_NUM, TITLE, CONTENTS, WDATE, WRITER, PRODUCT_CODE, SCORE, FNAME, FPATH)
 VALUES (
 	1, #{title}, #{contents}, SYSDATE, 'uid', '123123', #{score}, #{fname}, #{fpath})
 </insert>
-<insert id="saveMyQna" parameterType="com.drmarten.demo.vo.DRBoard">
+<insert id="saveMyQna" parameterType="com.ezen.drmarten.model.Board">
 INSERT INTO MYQNA (BOARD_NUM, TITLE, CONTENTS, WDATE, WRITER, PRODUCT_CODE, PCODE, ORDER_NUM, CATEGORY)
 VALUES (
 	1, #{title}, #{contents}, SYSDATE, 'uid', '123123',#{pcode}, #{order_num}, #{category})
 </insert>
-<select id="getNoticeList"  resultType="com.drmarten.demo.vo.DRBoard">
+<select id="getNoticeList"  resultType="com.ezen.drmarten.model.Board">
 SELECT * FROM NOTICE order By Board_num
 </select>
-<select id="getQnaList"  resultType="com.drmarten.demo.vo.DRBoard">
+<select id="getQnaList"  resultType="com.ezen.drmarten.model.Board">
 SELECT * FROM QA order By Board_num
 </select>
-<select id="getReviewList"  resultType="com.drmarten.demo.vo.DRBoard">
+<select id="getReviewList"  resultType="com.ezen.drmarten.model.Board">
 SELECT * FROM REVIEW order By Board_num
 </select>
-<select id="getMyQnaList"  resultType="com.drmarten.demo.vo.DRBoard">
+<select id="getMyQnaList"  resultType="com.ezen.drmarten.model.Board">
 SELECT * FROM MYQNA order By Board_num
 </select>
-<select id="getQnaListByCategory"  parameterType="String"  resultType="com.drmarten.demo.vo.DRBoard">
+<select id="getQnaListByCategory"  parameterType="String"  resultType="com.ezen.drmarten.model.Board">
 SELECT * FROM QA WHERE category=#{category} order By Board_num 
 </select>
 
-<select id="searchQnaList" parameterType="String" resultType="com.drmarten.demo.vo.DRBoard">
+<select id="searchQnaList" parameterType="String" resultType="com.ezen.drmarten.model.Board">
 SELECT * FROM QA WHERE title LIKE '%'||#{search}||'%'
 </select>
-<select id="getMyQna" parameterType="Integer" resultType="com.drmarten.demo.vo.DRBoard">
+<select id="getMyQna" parameterType="Integer" resultType="com.ezen.drmarten.model.Board">
 SELECT * FROM MYQNA WHERE BOARD_NUM = #{num}
 </select>
-<select id="getNotice" parameterType="Integer" resultType="com.drmarten.demo.vo.DRBoard">
+<select id="getNotice" parameterType="Integer" resultType="com.ezen.drmarten.model.Board">
 SELECT * FROM NOTICE WHERE BOARD_NUM = #{num}
 </select>
-<select id="getQa" parameterType="Integer" resultType="com.drmarten.demo.vo.DRBoard">
+<select id="getQa" parameterType="Integer" resultType="com.ezen.drmarten.model.Board">
 SELECT * FROM QA WHERE BOARD_NUM = #{num}
 </select>
 <insert id="deleteMyQna"  parameterType="Integer">
@@ -63,13 +63,13 @@ DELETE FROM REVIEW WHERE BOARD_NUM = #{num}
 <insert id="deleteNotice"  parameterType="Integer">
 DELETE FROM NOTICE WHERE BOARD_NUM = #{num}
 </insert>
-<insert id="updateNotice"  parameterType="com.drmarten.demo.vo.DRBoard">
+<insert id="updateNotice"  parameterType="com.ezen.drmarten.model.Board">
 UPDATE NOTICE SET title=#{title}, contents=#{contents}, category=#{category} WHERE board_num=#{board_num}
 </insert>
-<insert id="updateQa"  parameterType="com.drmarten.demo.vo.DRBoard">
+<insert id="updateQa"  parameterType="com.ezen.drmarten.model.Board">
 UPDATE QA SET title=#{title}, contents=#{contents}, category=#{category} WHERE board_num=#{board_num}
 </insert>
-<insert id="updateMyQna"  parameterType="com.drmarten.demo.vo.DRBoard">
+<insert id="updateMyQna"  parameterType="com.ezen.drmarten.model.Board">
 UPDATE MYQNA SET title=#{title}, contents=#{contents}  WHERE board_num=#{board_num}
 </insert>
 </mapper>

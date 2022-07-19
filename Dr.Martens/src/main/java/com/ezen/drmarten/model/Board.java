@@ -1,6 +1,6 @@
-package com.drmarten.demo.vo;
+package com.ezen.drmarten.model;
 
-public class DRBoard {
+public class Board {
 
 		private int board_num;
 		private String category;
