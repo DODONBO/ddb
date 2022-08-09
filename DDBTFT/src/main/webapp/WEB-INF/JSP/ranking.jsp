@@ -25,36 +25,40 @@
 	<div class="inner">
 		<table id="table">
 			<tr>
-				<th style="width:6.25%">순위</th>
+				<th style="width:6.25%; font-weight : bold;">순위</th>
 				<th style="width:50%">소환사명</th>
 				<th style="width:6.25%">티어</th>
 				<th style="width:6.25%">포인트</th>
-				<th style="width:6.25%">승률</th>
 				<th style="width:6.25%">TOP4%</th>
 				<th style="width:6.25%">게임수</th>
-				<th style="width:6.25%">승</th>
 				<th style="width:6.25%">TOP4</th>
 			</tr>
 			<c:forEach var="l" items="${pageInfo.list}" varStatus="status">
 			<c:if test="${ status.count <= 100}">
 			<tr>
-				<td style="text-align:center;">${status.count}</td>
+				<td style="text-align:center; font-weight : bold;">${status.count}</td>
 				<td><a href="/tft/playerDetail?name=${l.summonerName}">${l.summonerName}</a></td>
-				<td style="text-align:center;">챌린져</td>
+				<td style="text-align:center;"><img src="https://cdn.lolchess.gg/images/lol/tier/2022/challenger.png" class="tier"></td>
 				<td style="text-align:center;">${l.leaguePoints}</td>
 				<c:set var="wins" value="${l.wins}"/>
 				<c:set var="losses" value="${l.losses}"/>
-				<td style="text-align:center;">
 								<%
 					int wins = Integer.parseInt(pageContext.getAttribute("wins").toString());
 					int losses = Integer.parseInt(pageContext.getAttribute("losses").toString());
 					long winrate = (wins * 100)/(wins+losses);
 					int total = wins +  losses;
-				%><%=winrate%>%</td>
-				<td style="text-align:center;"></td>
+					pageContext.setAttribute("winrate", winrate);
+				%>
+								<c:choose>
+				<c:when test="${winrate >= 70}">
+					<td style="text-align:center; color:#a32929; font-weight:bold;">${winrate}%</td>
+				</c:when>
+				<c:otherwise>
+					<td style="text-align:center; font-weight:bold;">${winrate}%</td>
+				</c:otherwise>
+				</c:choose>
 				<td style="text-align:center;"><%=total%></td>
 				<td style="text-align:center;">${l.wins}</td>
-				<td style="text-align:center;"></td>
 			</tr>
 			</c:if>
 			</c:forEach>

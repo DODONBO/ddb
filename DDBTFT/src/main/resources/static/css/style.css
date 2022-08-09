@@ -313,3 +313,8 @@ input:focus {
     display: inline-block;
     height: 100%;
 }
+img.tier {
+	display : inline-block;
+	height : 30px;
+	margin : 0 auto;'
+}
